@@ -12,14 +12,17 @@ Drone flight logger - web application for FPV pilots:
 - python3, Flask
 - mysql installed
 
-## DB Configuration steps
-
-#### Execute SQL queries from static/assets/initdb.sql
-
 ## Clone repository
 
 ```
 git clone https://github.com/karcio/f-drones-app.git
+
+```
+
+## DB Configuration steps
+
+```
+mysql -u user -ppassword < f-drones-app/static/assets/sql/initdb.sql
 ```
 
 ## create virtual environment and activate
