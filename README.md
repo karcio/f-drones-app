@@ -10,7 +10,7 @@ Drone flight logger - web application for FPV pilots:
 ## Requirements
 
 - python3, Flask
-- mysql installed
+- mariadb-server
 
 ## Clone repository
 
@@ -43,4 +43,16 @@ pip install -r requirements.txt
 
 ```
 python app.py
+```
+
+## NOTE: if you want use https instead of http replace following line
+
+```
+app.run(debug=False, host='0.0.0.0', port=5000)
+```
+
+with
+
+```
+app.run(debug=False, host='0.0.0.0', port=5000, ssl_context=('/etc/letsencrypt/live/your-domain/fullchain.pem', '/etc/letsencrypt/live/your-domain/privkey.pem'))
 ```
