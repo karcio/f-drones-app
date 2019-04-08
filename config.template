@@ -1,0 +1,10 @@
+[APP]
+user = admin
+password = pa88w0rd
+version = 0.1
+
+[MY_SQL]
+dbuser = dbuser
+dbpassword = pa88w0rd
+database = RCDB
+localhost = localhost

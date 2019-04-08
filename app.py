@@ -1,14 +1,66 @@
 from flask import Flask, render_template, session, request
 from flaskext.mysql import MySQL
+import configparser
 
 import os
 app = Flask(__name__)
 
+
+config = configparser.ConfigParser()
+
+
+def getLocalhost():
+    readConfig()
+
+    return config.get('MY_SQL', 'localhost')
+
+
+def getDatabase():
+    readConfig()
+
+    return config.get('MY_SQL', 'database')
+
+
+def getDbPass():
+    readConfig()
+
+    return config.get('MY_SQL', 'dbpassword')
+
+
+def getDbUser():
+    readConfig()
+
+    return config.get('MY_SQL', 'dbuser')
+
+
+def getAppVersion():
+    readConfig()
+
+    return config.get('APP', 'version')
+
+
+def getAppPass():
+    readConfig()
+
+    return config.get('APP', 'password')
+
+
+def getAppUser():
+    readConfig()
+    return config.get('APP', 'user')
+
+
+def readConfig():
+    property = config.read('../f-drones-app/config')
+
+    return property
+
+
 mysql = MySQL()
-app.config['MYSQL_DATABASE_USER'] = 'dbuser'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'pa88w0rd'
-app.config['MYSQL_DATABASE_DB'] = 'RCDB'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_USER'] = getDbUser()
+app.config['MYSQL_DATABASE_PASSWORD'] = getDbPass()
+app.config['MYSQL_DATABASE_DB'] = getDatabase()
+app.config['MYSQL_DATABASE_HOST'] = getLocalhost()
 mysql.init_app(app)
 
 
@@ -18,14 +70,16 @@ def home():
         return render_template('login.html')
 
     else:
+        getAppUser()
         conn = mysql.connect()
         cursor = conn.cursor()
 
         cursor.execute("SELECT * from VIEW_TOTAL_FLIGHTS")
         data = cursor.fetchone()
         print(data)
+        v = getAppVersion()
 
-        return render_template('index.html', rows=data)
+        return render_template('index.html', rows=data, v=v)
 
 
 @app.route('/drones', methods=['GET'])
@@ -40,8 +94,9 @@ def drones():
         cursor.execute("SELECT * from VIEW_DRONES")
         data = cursor.fetchall()
         print(data)
+        v = getAppVersion()
 
-        return render_template('drones.html', rows=data)
+        return render_template('drones.html', rows=data, v=v)
 
 
 @app.route('/flightlog', methods=['GET'])
@@ -56,13 +111,15 @@ def flightlog():
         cursor.execute("SELECT * from VIEW_FLIGHT_LOG")
         data = cursor.fetchall()
         print(data)
+        v = getAppVersion()
 
-        return render_template('flightlog.html', rows=data)
+        return render_template('flightlog.html', rows=data, v=v)
 
 
 @app.route('/login', methods=['POST'])
 def do_admin_login():
-    if request.form['password'] == 'pa88w0rd' and request.form['username'] == 'admin':
+
+    if request.form['password'] == getAppPass() and request.form['username'] == getAppUser():
         session['logged_in'] = True
     else:
         print('wrong password')
@@ -101,6 +158,7 @@ def insert():
             conn.close()
 
             print('inserted 1 row: ' + sql)
+
         return render_template('insert.html')
 
 

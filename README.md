@@ -1,4 +1,6 @@
-# flight log drones web application
+# f-drones-app v 0.2
+
+## Flight log drones web application
 
 ## Description
 
@@ -55,4 +57,11 @@ with
 
 ```
 app.run(debug=False, host='0.0.0.0', port=5000, ssl_context=('/etc/letsencrypt/live/your-domain/fullchain.pem', '/etc/letsencrypt/live/your-domain/privkey.pem'))
+```
+
+## NOTE: to use config make sure you rename config.template to config
+
+```
+mv config.template config
+
 ```
