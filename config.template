@@ -1,7 +1,7 @@
 [APP]
 user = admin
 password = pa88w0rd
-version = 0.1
+version = 0.2
 
 [MY_SQL]
 dbuser = dbuser
