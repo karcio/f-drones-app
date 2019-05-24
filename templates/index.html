@@ -14,12 +14,42 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th>Flights</th>
+            <th>All flights</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             {% for row in rows %}
+            <td>{{ row }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Flights 2019</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {% for row in data2019 %}
+            <td>{{ row }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Flights 2018</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {% for row in data2018 %}
             <td>{{ row }}</td>
           </tr>
           {% endfor %}
