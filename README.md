@@ -1,4 +1,4 @@
-# f-drones-app v 0.2
+# f-drones-app v 0.3
 
 ## Flight log drones web application
 

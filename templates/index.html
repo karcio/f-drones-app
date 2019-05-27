@@ -4,23 +4,57 @@
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="../static/assets/css/bootstrap.min.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Flight log v {{ v }}</title>
+    <title>Flight log v {{ version }}</title>
   </head>
 
   <body>
     <div class="container">
       {% include 'navbar.html' %}
+      <h2>Statistics</h2>
+      <table class="table table-borderless">
+        <tbody>
+          <tr>
+            <td>All flights</td>
+            {% for row in rows %}
+            <td>{{ row }}</td>
+          </tr>
+          {% endfor %}
+          <tr>
+            <td>Flights in 2019</td>
 
+            {% for row in data2019 %}
+            <td>{{ row }}</td>
+          </tr>
+          {% endfor %}
+          <tr>
+            <td>Flights in 2018</td>
+
+            {% for row in data2018 %}
+            <td>{{ row }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <h2>My drones</h2>
       <table class="table table-striped">
         <thead>
           <tr>
-            <th>Flights</th>
+            <th>Drone id</th>
+            <th>Drone name</th>
+            <th>Flight controller</th>
+            <th>ESC</th>
+            <th>FPV camera</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            {% for row in rows %}
-            <td>{{ row }}</td>
+            {% for row in getDrones %}
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
           </tr>
           {% endfor %}
         </tbody>

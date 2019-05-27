@@ -1,8 +1,11 @@
+import os
 from flask import Flask, render_template, session, request
 from flaskext.mysql import MySQL
 import configparser
+import logging
+logging.basicConfig(
+    format=' %(levelname)s - %(asctime)s - %(message)s ', level=logging.DEBUG)
 
-import os
 app = Flask(__name__)
 
 
@@ -71,15 +74,8 @@ def home():
 
     else:
         getAppUser()
-        conn = mysql.connect()
-        cursor = conn.cursor()
 
-        cursor.execute("SELECT * from VIEW_TOTAL_FLIGHTS")
-        data = cursor.fetchone()
-        print(data)
-        v = getAppVersion()
-
-        return render_template('index.html', rows=data, v=v)
+        return render_template('index.html', rows=getTotalFlights(), version=getAppVersion(), data2018=getAllFlights2018(), data2019=getAllFlights2019(), getDrones=getDrones())
 
 
 @app.route('/drones', methods=['GET'])
@@ -88,15 +84,7 @@ def drones():
         return render_template('login.html')
 
     else:
-        conn = mysql.connect()
-        cursor = conn.cursor()
-
-        cursor.execute("SELECT * from VIEW_DRONES")
-        data = cursor.fetchall()
-        print(data)
-        v = getAppVersion()
-
-        return render_template('drones.html', rows=data, v=v)
+        return render_template('drones.html', rows=getDrones(), version=getAppVersion())
 
 
 @app.route('/flightlog', methods=['GET'])
@@ -105,15 +93,7 @@ def flightlog():
         return render_template('login.html')
 
     else:
-        conn = mysql.connect()
-        cursor = conn.cursor()
-
-        cursor.execute("SELECT * from VIEW_FLIGHT_LOG")
-        data = cursor.fetchall()
-        print(data)
-        v = getAppVersion()
-
-        return render_template('flightlog.html', rows=data, v=v)
+        return render_template('flightlog.html', rows=getFlightlog(), version=getAppVersion())
 
 
 @app.route('/login', methods=['POST'])
@@ -122,7 +102,7 @@ def do_admin_login():
     if request.form['password'] == getAppPass() and request.form['username'] == getAppUser():
         session['logged_in'] = True
     else:
-        print('wrong password')
+        logging.error('wrong password')
     return home()
 
 
@@ -148,7 +128,6 @@ def insert():
             sql = "INSERT INTO FLIGHT_LOG(DATE, PLACE, DRONE_ID, LIPO, NOTES) VALUES('" + \
                 str(date)+"', '"+str(place)+"', "+str(droneid) + \
                 ", "+str(lipo)+", '"+str(notes)+"')"
-            print(sql)
 
             conn = mysql.connect()
             cursor = conn.cursor()
@@ -157,9 +136,63 @@ def insert():
             cursor.close()
             conn.close()
 
-            print('inserted 1 row: ' + sql)
+            logging.info('inserted 1 row: ' + sql)
 
-        return render_template('insert.html')
+            return render_template('success.html')
+
+        elif request.method == 'GET':
+            return render_template('insert.html')
+
+
+def getAllFlights2018():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM VIEW_TOTAL_FLIGHTS_2018")
+    data2018 = cursor.fetchone()
+
+    return data2018
+
+
+def getAllFlights2019():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM VIEW_TOTAL_FLIGHTS_2019")
+    data2019 = cursor.fetchone()
+
+    return data2019
+
+
+def getDrones():
+
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM VIEW_DRONES")
+    drones = cursor.fetchall()
+
+    return drones
+
+
+def getTotalFlights():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * from VIEW_TOTAL_FLIGHTS")
+    totalFlights = cursor.fetchone()
+
+    return totalFlights
+
+
+def getFlightlog():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * from VIEW_FLIGHT_LOG")
+    flightLog = cursor.fetchall()
+
+    return flightLog
 
 
 if __name__ == '__main__':
