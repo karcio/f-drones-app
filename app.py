@@ -74,6 +74,10 @@ def home():
 
     else:
         getAppUser()
+        logging.info(getTotalFlights())
+        logging.info(getAllFlights2019())
+        logging.info(getAllFlights2018())
+        logging.info(getDrones())
 
         return render_template('index.html', rows=getTotalFlights(), version=getAppVersion(), data2018=getAllFlights2018(), data2019=getAllFlights2019(), getDrones=getDrones())
 
@@ -84,6 +88,7 @@ def drones():
         return render_template('login.html')
 
     else:
+        logging.info(getDrones())
         return render_template('drones.html', rows=getDrones(), version=getAppVersion())
 
 
@@ -93,6 +98,7 @@ def flightlog():
         return render_template('login.html')
 
     else:
+        logging.info(getFlightlog())
         return render_template('flightlog.html', rows=getFlightlog(), version=getAppVersion())
 
 
