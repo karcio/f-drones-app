@@ -1,4 +1,4 @@
-# f-drones-app v0.4
+# f-drones-app v0.4.1
 
 ## Flight log drones web application
 
@@ -11,7 +11,7 @@ Drone flight logger - web application for FPV pilots:
 
 ## Requirements
 
-- python3, Flask
+- python3, Flask, requests
 - mariadb-server
 
 ## Clone repository

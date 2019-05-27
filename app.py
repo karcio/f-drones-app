@@ -13,42 +13,49 @@ config = configparser.ConfigParser()
 
 
 def getLocalhost():
+    logging.info('Getting localhost')
     readConfig()
 
     return config.get('MY_SQL', 'localhost')
 
 
 def getDatabase():
+    logging.info('Getting database')
     readConfig()
 
     return config.get('MY_SQL', 'database')
 
 
 def getDbPass():
+    logging.info('Getting database password')
     readConfig()
 
     return config.get('MY_SQL', 'dbpassword')
 
 
 def getDbUser():
+    logging.info('Getting database user')
     readConfig()
 
     return config.get('MY_SQL', 'dbuser')
 
 
 def getAppVersion():
+    logging.info('Getting application version')
     readConfig()
 
     return config.get('APP', 'version')
 
 
 def getAppPass():
+    logging.info('Getting application password')
     readConfig()
 
     return config.get('APP', 'password')
 
 
 def getAppUser():
+    logging.info('Getting application user')
     readConfig()
     return config.get('APP', 'user')
 
@@ -88,7 +95,7 @@ def drones():
         return render_template('login.html')
 
     else:
-        logging.info(getDrones())
+        logging.info('Getting drones: %s', getDrones())
         return render_template('drones.html', rows=getDrones(), version=getAppVersion())
 
 
@@ -98,7 +105,7 @@ def flightlog():
         return render_template('login.html')
 
     else:
-        logging.info(getFlightlog())
+        logging.info('Getting flights: %s', getFlightlog())
         return render_template('flightlog.html', rows=getFlightlog(), version=getAppVersion())
 
 
