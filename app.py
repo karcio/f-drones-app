@@ -74,18 +74,8 @@ def home():
 
     else:
         getAppUser()
-        conn = mysql.connect()
-        cursor = conn.cursor()
 
-        cursor.execute("SELECT * from VIEW_TOTAL_FLIGHTS")
-        data = cursor.fetchone()
-        v = getAppVersion()
-        logging.info(data)
-
-        logging.info(flights2018())
-        logging.info(flights2019())
-
-        return render_template('index.html', rows=data, v=v, data2018=flights2018(), data2019=flights2019())
+        return render_template('index.html', rows=getTotalFlights(), version=getAppVersion(), data2018=getAllFlights2018(), data2019=getAllFlights2019(), getDrones=getDrones())
 
 
 @app.route('/drones', methods=['GET'])
@@ -94,15 +84,7 @@ def drones():
         return render_template('login.html')
 
     else:
-        conn = mysql.connect()
-        cursor = conn.cursor()
-
-        cursor.execute("SELECT * from VIEW_DRONES")
-        data = cursor.fetchall()
-        v = getAppVersion()
-        logging.info(data)
-
-        return render_template('drones.html', rows=data, v=v)
+        return render_template('drones.html', rows=getDrones(), version=getAppVersion())
 
 
 @app.route('/flightlog', methods=['GET'])
@@ -111,15 +93,7 @@ def flightlog():
         return render_template('login.html')
 
     else:
-        conn = mysql.connect()
-        cursor = conn.cursor()
-
-        cursor.execute("SELECT * from VIEW_FLIGHT_LOG")
-        data = cursor.fetchall()
-        v = getAppVersion()
-        logging.info(data)
-
-        return render_template('flightlog.html', rows=data, v=v)
+        return render_template('flightlog.html', rows=getFlightlog(), version=getAppVersion())
 
 
 @app.route('/login', methods=['POST'])
@@ -170,7 +144,7 @@ def insert():
             return render_template('insert.html')
 
 
-def flights2018():
+def getAllFlights2018():
     conn = mysql.connect()
     cursor = conn.cursor()
 
@@ -180,7 +154,7 @@ def flights2018():
     return data2018
 
 
-def flights2019():
+def getAllFlights2019():
     conn = mysql.connect()
     cursor = conn.cursor()
 
@@ -188,6 +162,37 @@ def flights2019():
     data2019 = cursor.fetchone()
 
     return data2019
+
+
+def getDrones():
+
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM VIEW_DRONES")
+    drones = cursor.fetchall()
+
+    return drones
+
+
+def getTotalFlights():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * from VIEW_TOTAL_FLIGHTS")
+    totalFlights = cursor.fetchone()
+
+    return totalFlights
+
+
+def getFlightlog():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * from VIEW_FLIGHT_LOG")
+    flightLog = cursor.fetchall()
+
+    return flightLog
 
 
 if __name__ == '__main__':
