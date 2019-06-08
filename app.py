@@ -84,9 +84,9 @@ def home():
         logging.info(getTotalFlights())
         logging.info(getAllFlights2019())
         logging.info(getAllFlights2018())
-        logging.info(getDrones())
+        logging.info(getFlightsByDroneId())
 
-        return render_template('index.html', rows=getTotalFlights(), version=getAppVersion(), data2018=getAllFlights2018(), data2019=getAllFlights2019(), getDrones=getDrones())
+        return render_template('index.html', rows=getTotalFlights(), version=getAppVersion(), data2018=getAllFlights2018(), data2019=getAllFlights2019(), getFlightsByDroneId=getFlightsByDroneId())
 
 
 @app.route('/drones', methods=['GET'])
@@ -125,7 +125,7 @@ def logout():
     return home()
 
 
-@app.route("/insert", methods=['GET', 'POST'])
+@app.route("/addflight", methods=['GET', 'POST'])
 def insert():
     if not session.get('logged_in'):
         return render_template('login.html')
@@ -154,7 +154,8 @@ def insert():
             return render_template('success.html')
 
         elif request.method == 'GET':
-            return render_template('insert.html')
+            logging.info(getDronesID())
+            return render_template('addflight.html', getDrones=getDronesID())
 
 
 def getAllFlights2018():
@@ -188,6 +189,17 @@ def getDrones():
     return drones
 
 
+def getDronesID():
+
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM VIEW_DRONES_ID")
+    droneId = cursor.fetchall()
+
+    return droneId
+
+
 def getTotalFlights():
     conn = mysql.connect()
     cursor = conn.cursor()
@@ -206,6 +218,16 @@ def getFlightlog():
     flightLog = cursor.fetchall()
 
     return flightLog
+
+
+def getFlightsByDroneId():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute("select * FROM VIEW_FLIGHTS_BY_DRONES")
+    flightsByDroneId = cursor.fetchall()
+
+    return flightsByDroneId
 
 
 if __name__ == '__main__':
