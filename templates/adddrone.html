@@ -10,79 +10,62 @@
   <body>
     <div class="container">
       {% include 'navbar.html' %}
-      <form action="/addflight" method="POST">
+      <form action="/adddrone" method="POST">
         <div class="form-group">
-          <label for="date">date *</label>
-          <input
-            type="date"
-            class="form-control"
-            placeholder="date"
-            name="date"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label for="place">place *</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="place"
-            name="place"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label for="droneid">drone id *</label>
+          <label for="id">drone id *</label>
           <input
             type="number"
             class="form-control"
             placeholder="drone id"
-            maxlength="2"
-            name="droneid"
+            name="id"
             required
           />
         </div>
         <div class="form-group">
-          <label for="lipo">lipo *</label>
+          <label for="name">name *</label>
           <input
-            type="number"
+            type="text"
             class="form-control"
-            placeholder="lipo"
-            maxlength="2"
-            name="lipo"
+            placeholder="drone name"
+            name="name"
             required
           />
         </div>
         <div class="form-group">
-          <label for="notes">notes *</label>
+          <label for="fc">flight controller *</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="flight controller"
+            maxlength="256"
+            name="fc"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="esc">esc *</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="esc"
+            maxlength="256"
+            name="esc"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="cam">camera *</label>
           <input
             type="text"
             class="form-control"
             placeholder="notes"
             maxlength="256"
-            name="notes"
+            name="cam"
             required
           />
         </div>
         <button type="submit" class="btn btn-dark">submit</button>
       </form>
-      <p></p>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Drone name</th>
-            <th>Drone id</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            {% for row in getDrones %}
-            <td>{{ row[0] }}</td>
-            <td>{{ row[1] }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
     </div>
   </body>
 </html>

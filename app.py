@@ -126,7 +126,7 @@ def logout():
 
 
 @app.route("/addflight", methods=['GET', 'POST'])
-def insert():
+def addflight():
     if not session.get('logged_in'):
         return render_template('login.html')
 
@@ -154,8 +154,41 @@ def insert():
             return render_template('success.html')
 
         elif request.method == 'GET':
+            logging.info(getDrones())
+            return render_template('addflight.html')
+
+
+@app.route("/adddrone", methods=['GET', 'POST'])
+def adddrone():
+    if not session.get('logged_in'):
+        return render_template('login.html')
+
+    else:
+        if request.method == 'POST':
+            droneId = request.form['id']
+            droneName = request.form['name']
+            fc = request.form['fc']
+            esc = request.form['esc']
+            cam = request.form['cam']
+
+            sql = "INSERT INTO DRONES(DRONE_ID, DRONE_NAME, FC, ESC, FPV_CAM) VALUES('" + \
+                str(droneId)+"', '"+str(droneName)+"', "+str(fc) + \
+                ", "+str(esc)+", '"+str(cam)+"')"
+
+            conn = mysql.connect()
+            cursor = conn.cursor()
+            cursor.execute(sql)
+            conn.commit()
+            cursor.close()
+            conn.close()
+
+            logging.info('inserted 1 row: ' + sql)
+
+            return render_template('success.html')
+
+        elif request.method == 'GET':
             logging.info(getDronesID())
-            return render_template('addflight.html', getDrones=getDronesID())
+            return render_template('adddrone.html', getDrones=getDronesID())
 
 
 def getAllFlights2018():
