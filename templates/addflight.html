@@ -66,6 +66,23 @@
         </div>
         <button type="submit" class="btn btn-dark">submit</button>
       </form>
+      <p></p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Drone name</th>
+            <th>Drone id</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {% for row in getDrones %}
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </body>
 </html>

@@ -36,25 +36,19 @@
         </tbody>
       </table>
 
-      <h2>My drones</h2>
-      <table class="table table-striped">
+      <h2>Flights by drones</h2>
+      <table class="table table-borderless">
         <thead>
           <tr>
-            <th>Drone id</th>
             <th>Drone name</th>
-            <th>Flight controller</th>
-            <th>ESC</th>
-            <th>FPV camera</th>
+            <th>total flights</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            {% for row in getDrones %}
+            {% for row in getFlightsByDroneId %}
             <td>{{ row[0] }}</td>
             <td>{{ row[1] }}</td>
-            <td>{{ row[2] }}</td>
-            <td>{{ row[3] }}</td>
-            <td>{{ row[4] }}</td>
           </tr>
           {% endfor %}
         </tbody>
