@@ -85,8 +85,10 @@ def home():
         logging.info(getAllFlights2019())
         logging.info(getAllFlights2018())
         logging.info(getFlightsByDroneId())
+        logging.info(getHomeFlights())
+        logging.info(getOutsideFlights())
 
-        return render_template('index.html', rows=getTotalFlights(), version=getAppVersion(), data2018=getAllFlights2018(), data2019=getAllFlights2019(), getFlightsByDroneId=getFlightsByDroneId())
+        return render_template('index.html', rows=getTotalFlights(), version=getAppVersion(), data2018=getAllFlights2018(), data2019=getAllFlights2019(), getFlightsByDroneId=getFlightsByDroneId(), getHomeFlights=getHomeFlights(), getOutsideFlights=getOutsideFlights())
 
 
 @app.route('/drones', methods=['GET'])
@@ -261,6 +263,26 @@ def getFlightsByDroneId():
     flightsByDroneId = cursor.fetchall()
 
     return flightsByDroneId
+
+
+def getHomeFlights():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute("select * FROM VIEW_HOME_FLIGHTS ")
+    homeFlights = cursor.fetchall()
+
+    return homeFlights
+
+
+def getOutsideFlights():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute("select * FROM VIEW_OUTSIDE_FLIGHTS ")
+    outsideFlights = cursor.fetchall()
+
+    return outsideFlights
 
 
 if __name__ == '__main__':

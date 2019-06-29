@@ -21,16 +21,26 @@
           {% endfor %}
           <tr>
             <td>Flights in 2019</td>
-
             {% for row in data2019 %}
             <td>{{ row }}</td>
           </tr>
           {% endfor %}
           <tr>
             <td>Flights in 2018</td>
-
             {% for row in data2018 %}
             <td>{{ row }}</td>
+          </tr>
+          {% endfor %}
+          <tr>
+            <td>Flights inside</td>
+            {% for row in getHomeFlights %}
+            <td>{{ row[0] }}</td>
+          </tr>
+          {% endfor %}
+          <tr>
+            <td>Flights outside</td>
+            {% for row in getOutsideFlights %}
+            <td>{{ row[0] }}</td>
           </tr>
           {% endfor %}
         </tbody>
