@@ -154,8 +154,8 @@ def addflight():
             return render_template('success.html')
 
         elif request.method == 'GET':
-            logging.info(getDrones())
-            return render_template('addflight.html', getDrones=getDrones())
+            logging.info(getDronesID())
+            return render_template('addflight.html', getDrones=getDronesID())
 
 
 @app.route("/adddrone", methods=['GET', 'POST'])
