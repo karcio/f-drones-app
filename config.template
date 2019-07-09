@@ -1,10 +1,14 @@
 [APP]
 user = admin
 password = pa88w0rd
-version = 0.5
+version = 0.5.1
 
 [MY_SQL]
 dbuser = dbuser
 dbpassword = pa88w0rd
 database = RCDB
 localhost = localhost
+
+[FOOTER]
+year = 2019
+company = your company url

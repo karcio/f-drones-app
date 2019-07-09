@@ -12,6 +12,18 @@ app = Flask(__name__)
 config = configparser.ConfigParser()
 
 
+def getYear():
+    logging.info('Getting year')
+    readConfig()
+
+    return config.get('FOOTER', 'year')
+
+def getCompany():
+    logging.info('Getting company')
+    readConfig()
+
+    return config.get('FOOTER', 'company')
+
 def getLocalhost():
     logging.info('Getting localhost')
     readConfig()
@@ -88,7 +100,7 @@ def home():
         logging.info(getHomeFlights())
         logging.info(getOutsideFlights())
 
-        return render_template('index.html', rows=getTotalFlights(), version=getAppVersion(), data2018=getAllFlights2018(), data2019=getAllFlights2019(), getFlightsByDroneId=getFlightsByDroneId(), getHomeFlights=getHomeFlights(), getOutsideFlights=getOutsideFlights())
+        return render_template('index.html', rows=getTotalFlights(), version=getAppVersion(), data2018=getAllFlights2018(), data2019=getAllFlights2019(), getFlightsByDroneId=getFlightsByDroneId(), getHomeFlights=getHomeFlights(), getOutsideFlights=getOutsideFlights(), getYear = getYear(), getCompany = getCompany())
 
 
 @app.route('/drones', methods=['GET'])

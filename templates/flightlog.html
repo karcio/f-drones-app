@@ -8,8 +8,15 @@
   </head>
 
   <body>
-    <div class="container">
+    <div class=".container-fluid">
       {% include 'navbar.html' %}
+
+      <input
+        class="form-control"
+        id="myInput"
+        type="text"
+        placeholder="Search.."
+      />
 
       <table class="table table-striped">
         <thead>
@@ -21,7 +28,7 @@
             <th>Notes</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="myTable">
           <tr>
             {% for row in rows %}
             <td>{{ row[0] }}</td>
@@ -33,6 +40,10 @@
           {% endfor %}
         </tbody>
       </table>
+
+      <script type="text/javascript" src="../static/js/filter.js"></script>
+
+      {% include 'footer.html' %}
     </div>
   </body>
 </html>
