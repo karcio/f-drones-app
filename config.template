@@ -8,3 +8,7 @@ dbuser = dbuser
 dbpassword = pa88w0rd
 database = RCDB
 localhost = localhost
+
+[FOOTER]
+year = 2019
+company = your company url
