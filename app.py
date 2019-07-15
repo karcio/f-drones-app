@@ -186,8 +186,10 @@ def adddrone():
             cam = request.form['cam']
 
             sql = "INSERT INTO DRONES(DRONE_ID, DRONE_NAME, FC, ESC, FPV_CAM) VALUES('" + \
-                str(droneId)+"', '"+str(droneName)+"', "+str(fc) + \
-                ", "+str(esc)+", '"+str(cam)+"')"
+                str(droneId)+"', '"+str(droneName)+"', '"+str(fc) + \
+                "', '"+str(esc)+"', '"+str(cam)+"')"
+
+            print(sql)
 
             conn = mysql.connect()
             cursor = conn.cursor()
