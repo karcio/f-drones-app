@@ -44,6 +44,10 @@ class configuration():
 
         return config.get('MY_SQL', 'dbuser')
 
+    def getAppUrl(self):
+        logging.info('Getting application url')
+        self.readConfig()
+
     def getAppVersion(self):
         logging.info('Getting application version')
         self.readConfig()

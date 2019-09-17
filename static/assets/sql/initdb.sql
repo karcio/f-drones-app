@@ -1,5 +1,4 @@
 CREATE DATABASE IF NOT EXISTS RCDB;
---DROP USER 'dbuser'@'localhost';
 FLUSH PRIVILEGES;
 CREATE USER 'dbuser'@'localhost' IDENTIFIED BY 'pa88w0rd';
 GRANT ALL ON RCDB.* TO 'dbuser'@'localhost';
