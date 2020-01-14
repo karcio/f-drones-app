@@ -1,7 +1,8 @@
 import os
 from flask import Flask, render_template, session, request
 from flaskext.mysql import MySQL
-import configparser
+
+from config import configuration
 import logging
 logging.basicConfig(
     format=' %(levelname)s - %(asctime)s - %(message)s ', level=logging.DEBUG)
@@ -9,80 +10,11 @@ logging.basicConfig(
 app = Flask(__name__)
 
 
-config = configparser.ConfigParser()
-
-
-def getYear():
-    logging.info('Getting year')
-    readConfig()
-
-    return config.get('FOOTER', 'year')
-
-def getCompany():
-    logging.info('Getting company')
-    readConfig()
-
-    return config.get('FOOTER', 'company')
-
-def getLocalhost():
-    logging.info('Getting localhost')
-    readConfig()
-
-    return config.get('MY_SQL', 'localhost')
-
-
-def getDatabase():
-    logging.info('Getting database')
-    readConfig()
-
-    return config.get('MY_SQL', 'database')
-
-
-def getDbPass():
-    logging.info('Getting database password')
-    readConfig()
-
-    return config.get('MY_SQL', 'dbpassword')
-
-
-def getDbUser():
-    logging.info('Getting database user')
-    readConfig()
-
-    return config.get('MY_SQL', 'dbuser')
-
-
-def getAppVersion():
-    logging.info('Getting application version')
-    readConfig()
-
-    return config.get('APP', 'version')
-
-
-def getAppPass():
-    logging.info('Getting application password')
-    readConfig()
-
-    return config.get('APP', 'password')
-
-
-def getAppUser():
-    logging.info('Getting application user')
-    readConfig()
-    return config.get('APP', 'user')
-
-
-def readConfig():
-    property = config.read('../f-drones-app/config')
-
-    return property
-
-
 mysql = MySQL()
-app.config['MYSQL_DATABASE_USER'] = getDbUser()
-app.config['MYSQL_DATABASE_PASSWORD'] = getDbPass()
-app.config['MYSQL_DATABASE_DB'] = getDatabase()
-app.config['MYSQL_DATABASE_HOST'] = getLocalhost()
+app.config['MYSQL_DATABASE_USER'] = configuration().getDbUser()
+app.config['MYSQL_DATABASE_PASSWORD'] = configuration().getDbPass()
+app.config['MYSQL_DATABASE_DB'] = configuration().getDatabase()
+app.config['MYSQL_DATABASE_HOST'] = configuration().getLocalhost()
 mysql.init_app(app)
 
 
@@ -92,15 +24,16 @@ def home():
         return render_template('login.html')
 
     else:
-        getAppUser()
+        configuration().getAppUser()
         logging.info(getTotalFlights())
+        logging.info(getAllFlights2020())
         logging.info(getAllFlights2019())
         logging.info(getAllFlights2018())
         logging.info(getFlightsByDroneId())
         logging.info(getHomeFlights())
         logging.info(getOutsideFlights())
 
-        return render_template('index.html', rows=getTotalFlights(), version=getAppVersion(), data2018=getAllFlights2018(), data2019=getAllFlights2019(), getFlightsByDroneId=getFlightsByDroneId(), getHomeFlights=getHomeFlights(), getOutsideFlights=getOutsideFlights(), getYear = getYear(), getCompany = getCompany())
+        return render_template('index.html', rows=getTotalFlights(), version=configuration().getAppVersion(), data2018=getAllFlights2018(), data2019=getAllFlights2019(),  data2020=getAllFlights2020(), getFlightsByDroneId=getFlightsByDroneId(), getHomeFlights=getHomeFlights(), getOutsideFlights=getOutsideFlights(), getYear=configuration().getYear(), getCompany=configuration().getCompany())
 
 
 @app.route('/drones', methods=['GET'])
@@ -110,7 +43,7 @@ def drones():
 
     else:
         logging.info('Getting drones: %s', getDrones())
-        return render_template('drones.html', rows=getDrones(), version=getAppVersion())
+        return render_template('drones.html', rows=getDrones(), version=configuration().getAppVersion())
 
 
 @app.route('/flightlog', methods=['GET'])
@@ -120,13 +53,13 @@ def flightlog():
 
     else:
         logging.info('Getting flights: %s', getFlightlog())
-        return render_template('flightlog.html', rows=getFlightlog(), version=getAppVersion())
+        return render_template('flightlog.html', rows=getFlightlog(), version=configuration().getAppVersion())
 
 
 @app.route('/login', methods=['POST'])
 def do_admin_login():
 
-    if request.form['password'] == getAppPass() and request.form['username'] == getAppUser():
+    if request.form['password'] == configuration().getAppPass() and request.form['username'] == configuration().getAppUser():
         session['logged_in'] = True
     else:
         logging.error('wrong password')
@@ -225,6 +158,16 @@ def getAllFlights2019():
     data2019 = cursor.fetchone()
 
     return data2019
+
+
+def getAllFlights2020():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM VIEW_TOTAL_FLIGHTS_2020")
+    data2020 = cursor.fetchone()
+
+    return data2020
 
 
 def getDrones():

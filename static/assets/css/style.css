@@ -1,0 +1,27 @@
+html,
+body {
+  height: 100%;
+}
+
+img {
+  max-width: 100%;
+}
+
+.container {
+  font-family: "Quicksand", sans-serif;
+  color: grey;
+}
+
+#cover {
+  background: #222 url("../images/drone-background.jpg") center center no-repeat;
+  background-size: cover;
+  color: white;
+  height: 40%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+}
+
+#cover-caption {
+  width: 40%;
+}
