@@ -26,13 +26,14 @@ def home():
     else:
         configuration().getAppUser()
         logging.info(getTotalFlights())
+        logging.info(getAllFlights2020())
         logging.info(getAllFlights2019())
         logging.info(getAllFlights2018())
         logging.info(getFlightsByDroneId())
         logging.info(getHomeFlights())
         logging.info(getOutsideFlights())
 
-        return render_template('index.html', rows=getTotalFlights(), version=configuration().getAppVersion(), data2018=getAllFlights2018(), data2019=getAllFlights2019(), getFlightsByDroneId=getFlightsByDroneId(), getHomeFlights=getHomeFlights(), getOutsideFlights=getOutsideFlights(), getYear=configuration().getYear(), getCompany=configuration().getCompany())
+        return render_template('index.html', rows=getTotalFlights(), version=configuration().getAppVersion(), data2018=getAllFlights2018(), data2019=getAllFlights2019(),  data2020=getAllFlights2020(), getFlightsByDroneId=getFlightsByDroneId(), getHomeFlights=getHomeFlights(), getOutsideFlights=getOutsideFlights(), getYear=configuration().getYear(), getCompany=configuration().getCompany())
 
 
 @app.route('/drones', methods=['GET'])
@@ -157,6 +158,16 @@ def getAllFlights2019():
     data2019 = cursor.fetchone()
 
     return data2019
+
+
+def getAllFlights2020():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM VIEW_TOTAL_FLIGHTS_2020")
+    data2020 = cursor.fetchone()
+
+    return data2020
 
 
 def getDrones():
